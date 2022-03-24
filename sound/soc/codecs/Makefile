@@ -35,6 +35,13 @@ snd-soc-ak4642-objs := ak4642.o
 snd-soc-ak4671-objs := ak4671.o
 snd-soc-ak5386-objs := ak5386.o
 snd-soc-arizona-objs := arizona.o
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 start
+# Tab A8 code for AX6300DEV-2526 by wanghao at 20211104 start
+snd-soc-aw882xx-objs += aw882xx/aw882xx.o aw882xx/aw_monitor.o aw882xx/aw_bin_parse.o\
+            aw882xx/aw_device.o aw882xx/aw_init.o aw882xx/aw_calib.o aw882xx/aw_dsp.o\
+            aw882xx/aw_spin.o
+# Tab A8 code for AX6300DEV-2526 by wanghao at 20211104 end
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 end
 snd-soc-bt-sco-objs := bt-sco.o
 snd-soc-cq93vc-objs := cq93vc.o
 snd-soc-cs35l32-objs := cs35l32.o
@@ -275,6 +282,9 @@ obj-$(CONFIG_SND_SOC_AK5386)	+= snd-soc-ak5386.o
 obj-$(CONFIG_SND_SOC_ALC5623)    += snd-soc-alc5623.o
 obj-$(CONFIG_SND_SOC_ALC5632)	+= snd-soc-alc5632.o
 obj-$(CONFIG_SND_SOC_ARIZONA)	+= snd-soc-arizona.o
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 start
+obj-$(CONFIG_SND_SOC_AW882XX)	+= snd-soc-aw882xx.o
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 end
 obj-$(CONFIG_SND_SOC_BT_SCO)	+= snd-soc-bt-sco.o
 obj-$(CONFIG_SND_SOC_CQ0093VC) += snd-soc-cq93vc.o
 obj-$(CONFIG_SND_SOC_CS35L32)	+= snd-soc-cs35l32.o

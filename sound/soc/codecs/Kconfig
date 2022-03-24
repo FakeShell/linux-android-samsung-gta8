@@ -44,6 +44,9 @@ config SND_SOC_ALL_CODECS
 	select SND_SOC_AK5386
 	select SND_SOC_ALC5623 if I2C
 	select SND_SOC_ALC5632 if I2C
+	# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 start
+	select SND_SOC_AW882XX if I2C
+	# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 end
 	select SND_SOC_BT_SCO
 	select SND_SOC_CQ0093VC
 	select SND_SOC_CS35L32 if I2C
@@ -400,6 +403,14 @@ config SND_SOC_ALC5623
 
 config SND_SOC_ALC5632
 	tristate
+
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 start
+config SND_SOC_AW882XX
+	tristate "SoC Audio for awinic aw882xx series"
+	depends on I2C
+	help
+	  This option enables support for aw882xx series Smart PA.
+# Tab A8 code for SR-AX6300-01-92 by maoruiqian at 20210808 end
 
 config SND_SOC_BT_SCO
 	tristate "Dummy BT SCO codec driver"
