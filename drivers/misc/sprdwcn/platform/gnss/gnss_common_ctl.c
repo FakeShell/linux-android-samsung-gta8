@@ -684,50 +684,7 @@ void gnss_dump_mem_ctrl_co(void)
 
 	complete(&gnss_dump_complete);
 }
-#else
-static int gnss_dump_mem_ctrl(void)
-{
-	int ret = -1;
-	static char dump_flag;
-
-	GNSSCOMM_INFO("[%s], flag is %d\n", __func__, dump_flag);
-	if (dump_flag == 1)
-		return 0;
-	dump_flag = 1;
-	if (gnss_common_ctl_dev.gnss_status == GNSS_STATUS_POWERON) {
-		ret = gnss_dump_mem(0);
-		gnss_common_ctl_dev.gnss_status = GNSS_STATUS_ASSERT;
-	}
-
-	return ret;
-}
 #endif
-static ssize_t gnss_dump_store(struct device *dev,
-				  struct device_attribute *attr,
-				  const char *buf, size_t count)
-{
-	unsigned long set_value;
-	int ret = -1;
-	int strlen = 0;
-	char trigger_str[64];
-
-	set_value = buf[0] - '0';
-	GNSSCOMM_INFO("%s, set_value: %lu\n", __func__, set_value);
-
-	memset(trigger_str, 0, 64);
-	strlen = ((count - 2) > 63) ? 63 : (count - 2);
-	memcpy(trigger_str, &buf[2], strlen);
-	GNSSCOMM_INFO("%s, trigger_str: %s\n", __func__, trigger_str);
-
-	if (set_value == 1) {
-		wcn_assert_interface(WCN_SOURCE_GNSS, trigger_str);
-	} else
-		count = -EINVAL;
-
-	return ret;
-}
-
-static DEVICE_ATTR_WO(gnss_dump);
 
 static ssize_t gnss_status_show(struct device *dev,
 				 struct device_attribute *attr, char *buf)
@@ -874,7 +831,6 @@ bool gnss_delay_ctl(void)
 
 static struct attribute *gnss_common_ctl_attrs[] = {
 	&dev_attr_gnss_power_enable.attr,
-	&dev_attr_gnss_dump.attr,
 	&dev_attr_gnss_status.attr,
 	&dev_attr_gnss_subsys.attr,
 #if (defined(CONFIG_UMW2652) || defined(CONFIG_UMW2631_I) \
@@ -958,7 +914,6 @@ static int gnss_common_ctl_probe(struct platform_device *pdev)
 	mdbg_dump_gnss_register(gnss_dump_mem_ctrl_co, NULL);
 	init_completion(&gnss_dump_complete);
 #else
-	mdbg_dump_gnss_register(gnss_dump_mem_ctrl, NULL);
 	wcn_gnss_ops_register(&gnss_common_ctl_ops);
 #endif
 
